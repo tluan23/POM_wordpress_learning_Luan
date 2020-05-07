@@ -1,4 +1,8 @@
 package pageObjects;
 
-public class LoginPageObject {
+import commons.AbstractPage;
+
+public class LoginPageObject extends AbstractPage {
+
+
 }
