@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.Set;
 
 public abstract class AbstractPage {
+    private Select select;
 
    public void openURL(WebDriver driver, String urlValue) {
         driver.get(urlValue);
@@ -68,7 +69,7 @@ public abstract class AbstractPage {
        }
    }
 
-   public void switchToWindowByTitle(WebDriver driver, String title) {
+   public void switchToWindowByTitle(WebDriver driver, String title) {¶ç
        Set<String> allWindows = driver.getWindowHandles();
        for (String runWindow: allWindows) {
            driver.switchTo().window(runWindow);
@@ -119,9 +120,11 @@ public abstract class AbstractPage {
        select.selectByVisibleText(value);
     }
 
-    public void getSelectItemInDropdown( WebDriver driver, String locator) {
-       Select select = new Select( findElementByXpath(locator,driver));
-    }
+    public String getSelectItemInDropdown( WebDriver driver, String locator) {
+       select = new Select( findElementByXpath(locator,driver));
+       return select.getFirstSelectedOption().getText();
+   }
+
 }
 
 
