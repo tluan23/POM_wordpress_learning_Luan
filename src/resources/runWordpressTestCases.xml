@@ -3,7 +3,7 @@
 <suite name="Wordpress"> <!--Dat ten theo project -->
     <test name="run on Chrome">
         <classes>
-            <class name="com.wordpress.login.Login_02_ApplyAbstractPage"/>
+            <class name="com.wordpress.login.Login_04_Page_Object_Pattern"/>
         </classes>
 
     </test>
