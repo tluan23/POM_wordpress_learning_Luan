@@ -1,6 +1,8 @@
 package commons;
 
+import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,9 +11,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Set;
 
+import static com.sun.jmx.snmp.ThreadContext.contains;
+
 public abstract class AbstractPage {
     private Select select;
-
+    private JavascriptExecutor jsExecutor;
+    private WebDriverWait waitExplicit;
+    private List<WebElement> elements;
+    private WebElement element;
    public void openURL(WebDriver driver, String urlValue) {
         driver.get(urlValue);
    }
@@ -69,7 +76,7 @@ public abstract class AbstractPage {
        }
    }
 
-   public void switchToWindowByTitle(WebDriver driver, String title) {¶ç
+   public void switchToWindowByTitle(WebDriver driver, String title) {
        Set<String> allWindows = driver.getWindowHandles();
        for (String runWindow: allWindows) {
            driver.switchTo().window(runWindow);
@@ -95,6 +102,9 @@ public abstract class AbstractPage {
            return false;
    }
 
+   public String getElementAttribute(WebDriver driver, String locator) {
+       return findElementByXpath(locator, driver).getText();
+   }
    //---------------------ACTION------------------------
     public By byXpath(String locator) {
        return By.xpath(locator);
@@ -108,7 +118,9 @@ public abstract class AbstractPage {
     }
 
     public void sendKeyToElement(WebDriver driver, String locator, String  value) {
-       findElementByXpath(locator,driver).sendKeys(value);
+        element = findElementByXpath(locator,driver);
+        element.clear();
+        element.click();
     }
 
     public String getElementText(WebDriver driver, String locator) {
@@ -123,8 +135,56 @@ public abstract class AbstractPage {
     public String getSelectItemInDropdown( WebDriver driver, String locator) {
        select = new Select( findElementByXpath(locator,driver));
        return select.getFirstSelectedOption().getText();
+    }
+
+    public void selectItemInCustomDropDown(WebDriver driver, String parentXpath, String allItemXpath, String expectedValueItem) throws InterruptedException {
+       WebElement parentDropdown = findElementByXpath(parentXpath,driver);
+       jsExecutor = (JavascriptExecutor) driver;
+       jsExecutor.executeScript("arguments[0].click();", parentDropdown);
+       Thread.sleep(1000);
+       waitExplicit = new WebDriverWait(driver, 30);
+       waitExplicit.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(allItemXpath)));
+       List<WebElement> allItems = driver.findElements(By.xpath(allItemXpath));
+
+        for (WebElement childElement : allItems) {
+            if (childElement.getText().equals(expectedValueItem)) {
+                childElement.click();
+            } else {
+                jsExecutor.executeScript("arguments[0].scrollIntoView(true);", childElement);
+                Thread.sleep(1000);
+                jsExecutor.executeScript("arguments[0].click();", childElement);
+            }
+            Thread.sleep(1000);
+            break;
+        }
+    }
+
+    public int countElementNumber(WebDriver driver, String locator) {
+        elements = findElementsByXpath(locator, driver);
+        return elements.size();
+    }
+
+    private List<WebElement> findElementsByXpath(String locator, WebDriver driver) {
+        return driver.findElements(byXpath(locator));
+    }
+
+    public void checkToCheckBox(WebDriver driver, String locator) {
+        element = findElementByXpath(locator, driver );
+        if(!element.isSelected()) {
+            element.click();
+        }
+    }
+
+    public void uncheckToCheckbox(WebDriver driver, String locator) {
+       element = findElementByXpath(locator, driver);
+       if (element.isSelected()) {
+           element.click();
+       }
    }
 
+   public void isElementDisplayed(WebDriver driver, String locator) {
+
+   }
 }
 
 
