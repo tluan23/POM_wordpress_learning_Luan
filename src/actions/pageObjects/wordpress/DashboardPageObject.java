@@ -1,8 +1,8 @@
-package pageObjects;
+package pageObjects.wordpress;
 
 import commons.AbstractPage;
 import org.openqa.selenium.WebDriver;
-import pageUI.DashboardPageUI;
+import pageUI.wordpress.DashboardPageUI;
 
 public class DashboardPageObject extends AbstractPage {
     WebDriver driver;

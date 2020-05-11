@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Bankguru">
+    <test verbose="2" preserve-order="true" name="/Users/reinz/Desktop/POM_wordpress_learning/src/resources">
+        <classes/>
+    </test>
+</suite>

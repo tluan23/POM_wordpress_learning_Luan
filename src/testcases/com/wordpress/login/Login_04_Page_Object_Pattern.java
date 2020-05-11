@@ -2,13 +2,12 @@ package com.wordpress.login;
 
 import commons.AbstractPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pageObjects.DashboardPageObject;
-import pageObjects.LoginPageObject;
+import pageObjects.wordpress.DashboardPageObject;
+import pageObjects.wordpress.LoginPageObject;
 
 import java.util.concurrent.TimeUnit;
 
